@@ -19,12 +19,12 @@ import lombok.Setter;
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private Double amount;
-    private LocalDate data;
-    private Category category;
-    private Bank bank;
+    protected Long id;
+    protected String name;
+    protected Double amount;
+    protected LocalDate date;
+    protected Category category;
+    protected Bank bank;
     @ManyToOne
-    private Destination destination;
+    protected Destination destination;
 }
