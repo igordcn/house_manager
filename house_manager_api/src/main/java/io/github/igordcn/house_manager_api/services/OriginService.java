@@ -1,9 +1,12 @@
 package io.github.igordcn.house_manager_api.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
 import io.github.igordcn.house_manager_api.entities.Origin;
 import io.github.igordcn.house_manager_api.repositories.OriginRepository;
 
@@ -16,8 +19,30 @@ public class OriginService {
         this.repository = repository;
     }
 
+    public List<Origin> findAll() {
+        return repository.findAll();
+    }
+
+    public Optional<Origin> findById(UUID id) {
+        return repository.findById(id);
+    }
+
     public List<Origin> findByName(String name) {
         return repository.findByNameLike(name);
+    }
+    
+    public Origin save(NamedResourceDto dto) {
+        var origin = new Origin(dto.name());
+        return repository.save(origin);
+    }
+
+    public void delete(Origin origin) {
+        repository.delete(origin);
+    }
+
+    public void delete(UUID id) {
+        var origin = findById(id).orElseThrow();
+        delete(origin);
     }
     
 }

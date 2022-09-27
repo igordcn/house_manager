@@ -11,6 +11,8 @@ import io.github.igordcn.house_manager_api.entities.Origin;
 @Repository
 public interface OriginRepository extends CrudRepository<Origin, UUID> {
     
+    List<Origin> findAll();
+
     List<Origin> findByNameLike(String name);
 
 }

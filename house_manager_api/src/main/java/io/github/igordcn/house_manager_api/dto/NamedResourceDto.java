@@ -1,13 +1,5 @@
 package io.github.igordcn.house_manager_api.dto;
 
-public record NamedResourceDto (
-    @NotNull String name
-    ) {
+import javax.validation.constraints.NotBlank;
 
-    public NamedResource(String name) {
-        this.name = name;
-        validate
-    }
-
-    public 
-}
+public record NamedResourceDto (@NotBlank String name) {}
