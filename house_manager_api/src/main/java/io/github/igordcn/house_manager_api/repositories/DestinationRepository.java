@@ -1,13 +1,18 @@
 package io.github.igordcn.house_manager_api.repositories;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import io.github.igordcn.house_manager_api.entities.Destination;
 
-public interface DestinationRepository extends Repository<Destination, Long> {
+@Repository
+public interface DestinationRepository extends CrudRepository<Destination, UUID> {
+
     List<Destination> findAll();
-    List<Destination> findByNomeLike(String nome);
+    
+    List<Destination> findByNameLike(String name);
+
 }

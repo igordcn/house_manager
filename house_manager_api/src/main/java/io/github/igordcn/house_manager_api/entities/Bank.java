@@ -1,35 +1,34 @@
 package io.github.igordcn.house_manager_api.entities;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = {"id"})
-@ToString
 @Entity
-public class Origin {
-
+@Table(name = "Bank")
+public class Bank implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     private String name;
 
-    public Origin(String name) {
+    public Bank(String name) {
+        this.id = UUID.randomUUID();
         this.name = name;
         validate();
     }
@@ -45,4 +44,5 @@ public class Origin {
             throw new IllegalStateException("Name should not be blank!");
         }
     }
+
 }
