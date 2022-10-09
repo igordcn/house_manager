@@ -16,24 +16,12 @@ public class IncomeService {
     
     private IncomeRepository repository;
 
-    private OriginService originService;
-
-    public IncomeService(IncomeRepository repository, OriginService originService) {
+    public IncomeService(IncomeRepository repository) {
         this.repository = repository;
-        this.originService = originService;
     }
 
-    public Page<Income> findByInterval(LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        return repository.findByDateBetween(dateStart, dateEnd, pageable);
-    }
-
-    public Page<Income> findByOriginAndInterval(UUID originId, LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        var origin = originService.findById(originId).orElseThrow();
-        return repository.findByOriginAndDateBetween(origin, dateStart, dateEnd, pageable);
-    }
-
-    public Page<Income> findByNameAndInterval(String name, LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        return repository.findByNameAndDateBetween(name, dateStart, dateEnd, pageable);
+    public Page<Income> findByNameAndOriginAndInterval(UUID originId, String name, LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
+        return repository.findByOriginIdAndNameLikeAndDateBetween(originId, name, dateStart, dateEnd, pageable);
     }
 
     public Optional<Income> findById(UUID id) {

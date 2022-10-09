@@ -1,5 +1,6 @@
 package io.github.igordcn.house_manager_api.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -32,7 +35,7 @@ public class Expense {
     
     private String name;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private LocalDate date;
 
@@ -43,9 +46,14 @@ public class Expense {
     private Bank bank;
 
     @ManyToMany
+    @JoinTable(
+        name = "Expense_Category",
+        joinColumns = @JoinColumn(name = "expense_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<Category> categories = new ArrayList<>();
 
-    public Expense(String name, Double amount, LocalDate date, Destination destination, Bank bank) {
+    public Expense(String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.amount = amount;
@@ -55,7 +63,7 @@ public class Expense {
         validate();
     }
 
-    public Expense(String name, Double amount, LocalDate date, Destination destination, Bank bank, List<Category> categories) {
+    public Expense(String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank, List<Category> categories) {
         this(name, amount, date, destination, bank);
         this.categories = categories;
     }
@@ -73,7 +81,7 @@ public class Expense {
         if (amount == null) {
             throw new IllegalStateException("Amount should not be null!");
         }
-        if (amount < 0) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("Amount should not be lesser than 0!");
         }
         if (date == null) {

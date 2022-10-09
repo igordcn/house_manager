@@ -16,37 +16,14 @@ public class ExpenseService {
     
     private ExpenseRepository repository;
 
-    private CategoryService categoryService;
-
-    private DestinationService destinationService;
-
-    private BankService bankService;
-
-    public ExpenseService(ExpenseRepository repository, CategoryService categoryService, DestinationService destinationService,
-        BankService bankService) {
+    public ExpenseService(ExpenseRepository repository) {
         this.repository = repository;
-        this.categoryService = categoryService;
-        this.destinationService = destinationService;
-        this.bankService = bankService;
     }
 
-    public Page<Expense> findByInterval(LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        return repository.findByDateBetween(dateStart, dateEnd, pageable);
-    }
-
-    public Page<Expense> findByCategoryAndInterval(UUID categoryId, LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        var category = categoryService.findById(categoryId).orElseThrow();
-        return repository.findByCategoryAndDateBetween(category, dateStart, dateEnd, pageable);
-    }
-
-    public Page<Expense> findByDestinationAndInterval(UUID destinationId, LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        var destination = destinationService.findById(destinationId).orElseThrow();
-        return repository.findByDestinationAndDateBetween(destination, dateStart, dateEnd, pageable);
-    }
-
-    public Page<Expense> findByBankAndInterval(UUID bankId, LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
-        var bank = bankService.findById(bankId).orElseThrow();
-        return repository.findByBankAndDateBetween(bank, dateStart, dateEnd, pageable);
+    public Page<Expense> findByCategoryBankDestinationAndInterval(UUID categoryId, UUID destinationId, UUID bankId,
+        LocalDate dateStart, LocalDate dateEnd, Pageable pageable) {
+        return repository.findByCategoryAndDestinationAndBankAndDateBetween(categoryId, destinationId, bankId,
+            dateStart, dateEnd, pageable);
     }
 
     public Optional<Expense> findById(UUID id) {

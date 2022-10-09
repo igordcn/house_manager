@@ -1,5 +1,6 @@
 package io.github.igordcn.house_manager_api.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -29,14 +30,14 @@ public class Income {
 
     private String name;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private LocalDate date;
 
     @ManyToOne
     private Origin origin;
 
-    public Income(String name, Double amount, LocalDate date) {
+    public Income(String name, BigDecimal amount, LocalDate date) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.amount = amount;
@@ -57,7 +58,7 @@ public class Income {
         if (amount == null) {
             throw new IllegalStateException("Amount should not be null!");
         }
-        if (amount < 0) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("Amount should not be lesser than 0!");
         }
         if (date == null) {

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = {"id"})
 @ToString
 @Entity
+@Table(name = "Origin")
 public class Origin {
 
     @Id
