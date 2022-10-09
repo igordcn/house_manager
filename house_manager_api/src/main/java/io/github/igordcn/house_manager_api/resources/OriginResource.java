@@ -29,18 +29,12 @@ public class OriginResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Origin>> getAll() {
-        var origins = service.findAll();
-        return ResponseEntity.ok(origins);
-    }
-
-    @GetMapping
     public ResponseEntity<List<Origin>> getByName(@RequestParam String name) {
-        var origins = service.findByName(name);
+        var origins = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(origins);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Origin> getById(@PathVariable UUID id) {
         var origin = service.findById(id).orElseThrow();
         return ResponseEntity.ok(origin);
@@ -54,7 +48,7 @@ public class OriginResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(UUID id) {
+    public ResponseEntity<Void> remove(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -29,18 +29,12 @@ public class BankResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Bank>> getAll() {
-        var banks = service.findAll();
-        return ResponseEntity.ok(banks);
-    }
-
-    @GetMapping
     public ResponseEntity<List<Bank>> getByName(@RequestParam String name) {
-        var banks = service.findByName(name);
+        var banks = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(banks);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Bank> getById(@PathVariable UUID id) {
         var bank = service.findById(id).orElseThrow();
         return ResponseEntity.ok(bank);
@@ -54,7 +48,7 @@ public class BankResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(UUID id) {
+    public ResponseEntity<Void> remove(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

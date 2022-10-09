@@ -29,18 +29,12 @@ public class DestinationResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Destination>> getAll() {
-        var destinations = service.findAll();
-        return ResponseEntity.ok(destinations);
-    }
-
-    @GetMapping
     public ResponseEntity<List<Destination>> getByName(@RequestParam String name) {
-        var destinations = service.findByName(name);
+        var destinations = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(destinations);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Destination> getById(@PathVariable UUID id) {
         var destination = service.findById(id).orElseThrow();
         return ResponseEntity.ok(destination);
@@ -54,7 +48,7 @@ public class DestinationResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(UUID id) {
+    public ResponseEntity<Void> remove(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

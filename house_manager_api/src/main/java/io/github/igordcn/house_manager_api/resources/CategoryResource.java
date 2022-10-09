@@ -29,18 +29,12 @@ public class CategoryResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAll() {
-        var categories = service.findAll();
-        return ResponseEntity.ok(categories);
-    }
-
-    @GetMapping
     public ResponseEntity<List<Category>> getByName(@RequestParam String name) {
-        var categories = service.findByName(name);
+        var categories = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Category> getById(@PathVariable UUID id) {
         var category = service.findById(id).orElseThrow();
         return ResponseEntity.ok(category);
@@ -54,7 +48,7 @@ public class CategoryResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(UUID id) {
+    public ResponseEntity<Void> remove(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
