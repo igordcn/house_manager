@@ -28,7 +28,7 @@ public class BankService {
     }
 
     public List<Bank> findByName(String name) {
-        return repository.findByNameLike(name);
+        return repository.findByNameContaining(name);
     }
 
     public Bank save(NamedResourceDto dto) {

@@ -13,6 +13,6 @@ public interface BankRepository extends CrudRepository<Bank, UUID> {
 
     List<Bank> findAll();
     
-    List<Bank> findByNameLike(String name);
+    List<Bank> findByNameContaining(String name);
     
 }

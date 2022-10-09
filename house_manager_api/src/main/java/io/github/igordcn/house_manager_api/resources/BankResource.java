@@ -29,7 +29,7 @@ public class BankResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Bank>> getByName(@RequestParam String name) {
+    public ResponseEntity<List<Bank>> getByName(@RequestParam(required = false) String name) {
         var banks = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(banks);
     }

@@ -11,6 +11,6 @@ import io.github.igordcn.house_manager_api.entities.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID>  {
     
-    List<Category> findByNameLike(String name);
+    List<Category> findByNameContaining(String name);
     
 }

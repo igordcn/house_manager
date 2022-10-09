@@ -13,6 +13,6 @@ public interface OriginRepository extends CrudRepository<Origin, UUID> {
     
     List<Origin> findAll();
 
-    List<Origin> findByNameLike(String name);
+    List<Origin> findByNameContaining(String name);
 
 }

@@ -13,6 +13,6 @@ public interface DestinationRepository extends CrudRepository<Destination, UUID>
 
     List<Destination> findAll();
     
-    List<Destination> findByNameLike(String name);
+    List<Destination> findByNameContaining(String name);
 
 }

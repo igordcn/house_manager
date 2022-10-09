@@ -28,7 +28,7 @@ public class OriginService {
     }
 
     public List<Origin> findByName(String name) {
-        return repository.findByNameLike(name);
+        return repository.findByNameContaining(name);
     }
     
     public Origin save(NamedResourceDto dto) {

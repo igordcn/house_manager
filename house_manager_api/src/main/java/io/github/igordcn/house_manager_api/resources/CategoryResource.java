@@ -29,7 +29,7 @@ public class CategoryResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getByName(@RequestParam String name) {
+    public ResponseEntity<List<Category>> getByName(@RequestParam(required = false) String name) {
         var categories = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(categories);
     }

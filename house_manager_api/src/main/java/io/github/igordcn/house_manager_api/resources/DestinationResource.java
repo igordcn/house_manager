@@ -29,7 +29,7 @@ public class DestinationResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Destination>> getByName(@RequestParam String name) {
+    public ResponseEntity<List<Destination>> getByName(@RequestParam(required = false) String name) {
         var destinations = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(destinations);
     }

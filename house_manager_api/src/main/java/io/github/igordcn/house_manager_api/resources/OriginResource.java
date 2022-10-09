@@ -29,7 +29,7 @@ public class OriginResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Origin>> getByName(@RequestParam String name) {
+    public ResponseEntity<List<Origin>> getByName(@RequestParam(required = false) String name) {
         var origins = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
         return ResponseEntity.ok(origins);
     }

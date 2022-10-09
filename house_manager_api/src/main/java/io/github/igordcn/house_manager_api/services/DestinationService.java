@@ -27,7 +27,7 @@ public class DestinationService {
     }
 
     public List<Destination> findByName(String name) {
-        return repository.findByNameLike(name);
+        return repository.findByNameContaining(name);
     }
 
     public Destination save(NamedResourceDto dto) {
