@@ -1,3 +1,6 @@
+### DB Config ###
 /db
-.DS_Store
 !/db/migration
+
+### DS Store ###
+.DS_Store

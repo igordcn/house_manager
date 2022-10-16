@@ -1,4 +1,17 @@
 services:
+  frontend:
+    image: node:18-alpine3.15
+    ports:
+      - 4000:4000
+    volumes:
+      - ${HOME}/Documents/estudos/projetos/house_manager/house_manager_front:/app
+    networks:
+      - back-front
+    working_dir: /app
+    command: ["npm", "start"]
+    depends_on:
+      - backend
+    
   backend:
     image: openjdk:17-jdk
     ports:
@@ -10,6 +23,7 @@ services:
       - POSTGRES_DB=house_manager
     networks:
       - spring-postgres
+      - back-front
     working_dir: /app
     command: ["./mvnw", "spring-boot:run"]
     depends_on:
@@ -39,3 +53,4 @@ secrets:
     file: db/password.txt
 networks:
   spring-postgres:
+  back-front:
