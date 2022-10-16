@@ -1,0 +1,35 @@
+<main style="background-color: #f8f9fa; padding: 0 30px; display: grid; gap: 30px;grid-template-columns: auto auto auto;">
+    <div style="grid-column: 1/4;">
+        <p-card>
+            <p-table [value]="incomes" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" resposiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 25, 50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Origin</th>
+                        <th>Date</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-income>
+                    <tr>
+                        <td>{{income.name}}</td>
+                        <td>{{income.amount}}</td>
+                        <td>{{income.origin.name}}</td>
+                        <td>{{income.date}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+    <div style="grid-column: 1/3;">
+        <p-card>
+            <p-chart type="line" [data]="basicData"></p-chart>
+        </p-card>
+    </div>
+    <div style="grid-column: 3/4;">
+        <p-card>
+            <p-chart type="pie" [data]="data"></p-chart>
+        </p-card>
+    </div>
+</main>
