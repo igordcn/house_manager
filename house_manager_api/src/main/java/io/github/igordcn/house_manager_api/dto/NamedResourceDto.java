@@ -2,4 +2,12 @@ package io.github.igordcn.house_manager_api.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public record NamedResourceDto (@NotBlank String name) {}
+import lombok.Data;
+
+@Data
+public class NamedResourceDto {
+    
+    @NotBlank
+    private String name;
+
+}

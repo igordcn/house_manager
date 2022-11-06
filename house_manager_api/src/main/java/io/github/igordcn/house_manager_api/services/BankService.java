@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
 import io.github.igordcn.house_manager_api.entities.Bank;
+import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.BankRepository;
 
 @Service
@@ -15,8 +16,11 @@ public class BankService {
     
     private BankRepository repository;
 
-    public BankService(BankRepository repository) {
+    private NamedMapper namedMapper;
+
+    public BankService(BankRepository repository, NamedMapper namedMapper) {
         this.repository = repository;
+        this.namedMapper = namedMapper;
     }
 
     public List<Bank> findAll() {
@@ -32,7 +36,7 @@ public class BankService {
     }
 
     public Bank save(NamedResourceDto dto) {
-        var bank = new Bank(dto.name());
+        var bank = namedMapper.namedResourceDtoToBank(dto);
         return repository.save(bank);
     }
 

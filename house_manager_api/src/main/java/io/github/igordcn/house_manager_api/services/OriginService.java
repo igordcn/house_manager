@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
 import io.github.igordcn.house_manager_api.entities.Origin;
+import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.OriginRepository;
 
 @Service
@@ -15,8 +16,11 @@ public class OriginService {
 
     private OriginRepository repository;
 
-    public OriginService(OriginRepository repository) {
+    private NamedMapper namedMapper;
+
+    public OriginService(OriginRepository repository, NamedMapper namedMapper) {
         this.repository = repository;
+        this.namedMapper = namedMapper;
     }
 
     public List<Origin> findAll() {
@@ -32,7 +36,7 @@ public class OriginService {
     }
     
     public Origin save(NamedResourceDto dto) {
-        var origin = new Origin(dto.name());
+        var origin = namedMapper.namedResourceDtoToOrigin(dto);
         return repository.save(origin);
     }
 
