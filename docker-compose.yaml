@@ -1,8 +1,8 @@
 services:
   frontend:
-    image: node:18-alpine3.15
+    build: ./house_manager_front
     ports:
-      - 4000:4000
+      - 4200:4200
     volumes:
       - ${HOME}/Documents/estudos/projetos/house_manager/house_manager_front:/app
     networks:
@@ -28,6 +28,9 @@ services:
     command: ["./mvnw", "spring-boot:run"]
     depends_on:
       - db
+    expose:
+      - "8080"
+    
   db:
     image: postgres
     platform: linux/x86_64
