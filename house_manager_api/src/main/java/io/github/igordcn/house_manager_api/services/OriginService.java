@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
+import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Origin;
 import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.OriginRepository;
@@ -35,7 +35,7 @@ public class OriginService {
         return repository.findByNameContaining(name);
     }
     
-    public Origin save(NamedResourceDto dto) {
+    public Origin save(NamedResourceInputDto dto) {
         var origin = namedMapper.namedResourceDtoToOrigin(dto);
         return repository.save(origin);
     }

@@ -1,9 +1,11 @@
 package io.github.igordcn.house_manager_api.entities;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -14,21 +16,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = {"id"})
-@ToString
 @Entity
 @Table(name = "Expense")
-public class Expense {
+public class Expense extends EntityBase {
     
     @Id
     private UUID id;
@@ -53,22 +44,98 @@ public class Expense {
     )
     private List<Category> categories = new ArrayList<>();
 
-    public Expense(String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank) {
-        this.id = UUID.randomUUID();
+    private Expense(UUID id, String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank) {
+        super();
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.date = date;
         this.destination = destination;
         this.bank = bank;
-        validate();
     }
 
-    public Expense(String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank, List<Category> categories) {
-        this(name, amount, date, destination, bank);
+    private Expense(UUID id, String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank,
+                    List<Category> categories) {
+        this(id, name, amount, date, destination, bank);
         this.categories = categories;
     }
 
-    private void validate() {
+    public UUID getId() {
+        return id;
+    }
+
+    private void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    private void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    private void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Destination getDestination() {
+        return destination;
+    }
+
+    private void setDestination(Destination destination) {
+        this.destination = destination;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    private void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    private void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public static Expense create(String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank,
+                                 List<Category> categories) {
+        var expense = new Expense(UUID.randomUUID(), name, amount, date, destination, bank, categories);
+        expense.validate();
+        return expense;
+    }
+
+    public void update(String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank,
+                       List<Category> categories) {
+        this.name = name;
+        this.amount = amount;
+        this.date = date;
+        this.destination = destination;
+        this.bank = bank;
+        this.categories = categories;
+        this.updatedAt = Instant.now();
+        this.validate();
+    }
+
+    protected void validate() {
         if (id == null) {
             throw new IllegalStateException("Id should not be null!");
         }
@@ -99,6 +166,19 @@ public class Expense {
         if (bank == null) {
             throw new IllegalStateException("Bank should not be null!");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Expense expense = (Expense) o;
+        return Objects.equals(id, expense.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

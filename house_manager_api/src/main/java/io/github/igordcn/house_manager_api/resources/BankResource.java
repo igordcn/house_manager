@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
+import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Bank;
 import io.github.igordcn.house_manager_api.services.BankService;
 
@@ -41,7 +41,7 @@ public class BankResource {
     }
 
     @PostMapping
-    public ResponseEntity<Bank> add(@RequestBody NamedResourceDto namedDto) {
+    public ResponseEntity<Bank> add(@RequestBody NamedResourceInputDto namedDto) {
         var bank = service.save(namedDto);
         var uri = UriComponentsBuilder.fromUriString("/banks/" + bank.getId()).build().toUri();
         return ResponseEntity.created(uri).body(bank);

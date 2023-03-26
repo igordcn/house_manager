@@ -1,40 +1,60 @@
 package io.github.igordcn.house_manager_api.entities;
 
-import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = {"id"})
-@ToString
 @Entity
 @Table(name = "Category")
-public class Category implements Serializable {
+public class Category extends EntityBase {
     
     @Id
     private UUID id;
 
     private String name;
 
-    public Category(String name) {
-        this.id = UUID.randomUUID();
+    private Category() {}
+
+    private Category(UUID id, String name) {
+        super();
+        this.id = id;
         this.name = name;
-        validate();
     }
 
-    private void validate() {
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setId(UUID id) {
+        this.id = id;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public static Category create(final String name) {
+        var category = new Category(UUID.randomUUID(), name);
+        category.validate();
+        return category;
+    }
+
+    public void update(final String name) {
+        this.name = name;
+        this.updatedAt = Instant.now();
+        this.validate();
+    }
+
+    protected void validate() {
         if (id == null) {
             throw new IllegalStateException("Id should not be null!");
         }
@@ -44,6 +64,19 @@ public class Category implements Serializable {
         if (name.isBlank()) {
             throw new IllegalStateException("Name should not be blank!");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(getId(), category.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
 }

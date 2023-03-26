@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
+import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Origin;
 import io.github.igordcn.house_manager_api.services.OriginService;
 
@@ -41,7 +41,7 @@ public class OriginResource {
     }
 
     @PostMapping
-    public ResponseEntity<Origin> add(@RequestBody NamedResourceDto namedDto) {
+    public ResponseEntity<Origin> add(@RequestBody NamedResourceInputDto namedDto) {
         var origin = service.save(namedDto);
         var uri = UriComponentsBuilder.fromUriString("/origins/" + origin.getId()).build().toUri();
         return ResponseEntity.created(uri).body(origin);

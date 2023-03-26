@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
+import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Category;
 import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.CategoryRepository;
@@ -35,7 +35,7 @@ public class CategoryService {
         return repository.findByNameContaining(name);
     }
 
-    public Category save(NamedResourceDto dto) {
+    public Category save(NamedResourceInputDto dto) {
         var category = namedMapper.namedResourceDtoToCategory(dto);
         return repository.save(category);
     }

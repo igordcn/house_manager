@@ -1,39 +1,60 @@
 package io.github.igordcn.house_manager_api.entities;
 
+import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = {"id"})
-@ToString
 @Entity
 @Table(name = "Origin")
-public class Origin {
+public class Origin extends EntityBase {
 
     @Id
     private UUID id;
 
     private String name;
 
-    public Origin(String name) {
+    private Origin() {}
+
+    private Origin(final UUID id, final String name) {
+        super();
+        this.id = id;
         this.name = name;
-        validate();
     }
 
-    private void validate() {
+    public UUID getId() {
+        return id;
+    }
+
+    private void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public Origin create(final String name) {
+        var origin = new Origin(UUID.randomUUID(), name);
+        origin.validate();
+        return origin;
+    }
+
+    public void update(final String name) {
+        this.name = name;
+        this.updatedAt = Instant.now();
+        this.validate();
+    }
+
+    protected void validate() {
         if (id == null) {
             throw new IllegalStateException("Id should not be null!");
         }
@@ -44,4 +65,18 @@ public class Origin {
             throw new IllegalStateException("Name should not be blank!");
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Origin origin = (Origin) o;
+        return Objects.equals(id, origin.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

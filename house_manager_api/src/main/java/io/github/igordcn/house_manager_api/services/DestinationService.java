@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
-import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
+import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Destination;
 import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.DestinationRepository;
@@ -34,7 +34,7 @@ public class DestinationService {
         return repository.findByNameContaining(name);
     }
 
-    public Destination save(NamedResourceDto dto) {
+    public Destination save(NamedResourceInputDto dto) {
         var destination = namedMapper.namedResourceDtoToDestination(dto);
         return repository.save(destination);
     }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.github.igordcn.house_manager_api.dto.NamedResourceDto;
+import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Bank;
 import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.BankRepository;
@@ -35,7 +35,7 @@ public class BankService {
         return repository.findByNameContaining(name);
     }
 
-    public Bank save(NamedResourceDto dto) {
+    public Bank save(NamedResourceInputDto dto) {
         var bank = namedMapper.namedResourceDtoToBank(dto);
         return repository.save(bank);
     }
