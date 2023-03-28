@@ -11,6 +11,8 @@ import io.github.igordcn.house_manager_api.entities.Bank;
 import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.BankRepository;
 
+import javax.validation.Valid;
+
 @Service
 public class BankService {
     
@@ -35,13 +37,20 @@ public class BankService {
         return repository.findByNameContaining(name);
     }
 
-    public Bank save(NamedResourceInputDto dto) {
-        var bank = namedMapper.namedResourceDtoToBank(dto);
+    public Bank insert(NamedResourceInputDto dto) {
+        var bank = Bank.create(dto.getName());
         return repository.save(bank);
     }
 
+    public void update(UUID id, NamedResourceInputDto dto) {
+        var bank = repository.findById(id).orElseThrow();
+        bank.update(dto.getName());
+        repository.save(bank);
+    }
+
     public void delete(Bank bank) {
-        repository.delete(bank);
+        bank.delete();
+        repository.save(bank);
     }
 
     public void delete(UUID id) {

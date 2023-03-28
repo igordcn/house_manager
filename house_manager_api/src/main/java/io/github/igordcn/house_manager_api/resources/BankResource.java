@@ -4,14 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
@@ -41,10 +34,16 @@ public class BankResource {
     }
 
     @PostMapping
-    public ResponseEntity<Bank> add(@RequestBody NamedResourceInputDto namedDto) {
-        var bank = service.save(namedDto);
+    public ResponseEntity<Void> add(@RequestBody NamedResourceInputDto namedDto) {
+        var bank = service.insert(namedDto);
         var uri = UriComponentsBuilder.fromUriString("/banks/" + bank.getId()).build().toUri();
-        return ResponseEntity.created(uri).body(bank);
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody NamedResourceInputDto namedDto) {
+        service.update(id, namedDto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
