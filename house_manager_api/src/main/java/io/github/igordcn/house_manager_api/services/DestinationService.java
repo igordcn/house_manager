@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Destination;
-import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.DestinationRepository;
 
 @Service
@@ -15,11 +14,8 @@ public class DestinationService {
 
     private DestinationRepository repository;
 
-    private NamedMapper namedMapper;
-
-    public DestinationService(DestinationRepository repository, NamedMapper namedMapper) {
+    public DestinationService(DestinationRepository repository) {
         this.repository = repository;
-        this.namedMapper = namedMapper;
     }
 
     public List<Destination> findAll() {
@@ -35,7 +31,7 @@ public class DestinationService {
     }
 
     public Destination save(NamedResourceInputDto dto) {
-        var destination = namedMapper.namedResourceDtoToDestination(dto);
+        var destination = Destination.create(dto.getName());
         return repository.save(destination);
     }
 

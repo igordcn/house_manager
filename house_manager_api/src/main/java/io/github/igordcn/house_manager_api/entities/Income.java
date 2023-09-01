@@ -35,7 +35,7 @@ public class Income extends EntityBase {
     @ManyToOne
     private Origin origin;
 
-    private Income() {}
+    protected Income() {}
 
     private Income(final UUID id, final String name, final BigDecimal amount, final LocalDate date,
                    final Origin origin) {

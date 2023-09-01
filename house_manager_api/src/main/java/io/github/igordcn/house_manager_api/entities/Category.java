@@ -18,7 +18,7 @@ public class Category extends EntityBase {
 
     private String name;
 
-    private Category() {}
+    protected Category() {}
 
     private Category(UUID id, String name) {
         super();

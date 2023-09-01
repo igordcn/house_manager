@@ -44,6 +44,8 @@ public class Expense extends EntityBase {
     )
     private List<Category> categories = new ArrayList<>();
 
+    public Expense() {}
+
     private Expense(UUID id, String name, BigDecimal amount, LocalDate date, Destination destination, Bank bank) {
         super();
         this.id = id;

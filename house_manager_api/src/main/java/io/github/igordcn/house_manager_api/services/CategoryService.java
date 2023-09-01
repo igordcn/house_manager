@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
 import io.github.igordcn.house_manager_api.entities.Category;
-import io.github.igordcn.house_manager_api.mapper.NamedMapper;
 import io.github.igordcn.house_manager_api.repositories.CategoryRepository;
 
 @Service
@@ -16,11 +15,8 @@ public class CategoryService {
     
     private CategoryRepository repository;
 
-    private NamedMapper namedMapper;
-
-    public CategoryService(CategoryRepository repository, NamedMapper namedMapper) {
+    public CategoryService(CategoryRepository repository) {
         this.repository = repository;
-        this.namedMapper = namedMapper;
     }
 
     public List<Category> findAll() {
@@ -36,7 +32,7 @@ public class CategoryService {
     }
 
     public Category save(NamedResourceInputDto dto) {
-        var category = namedMapper.namedResourceDtoToCategory(dto);
+        var category = Category.create(dto.getName());
         return repository.save(category);
     }
 

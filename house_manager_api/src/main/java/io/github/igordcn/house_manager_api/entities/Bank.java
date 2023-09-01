@@ -18,7 +18,7 @@ public class Bank extends EntityBase {
 
     private String name;
 
-    private Bank() {}
+    protected Bank() {}
 
     private Bank(UUID id, String name) {
         super();

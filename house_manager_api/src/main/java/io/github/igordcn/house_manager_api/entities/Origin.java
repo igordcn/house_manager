@@ -18,7 +18,7 @@ public class Origin extends EntityBase {
 
     private String name;
 
-    private Origin() {}
+    protected Origin() {}
 
     private Origin(final UUID id, final String name) {
         super();
@@ -42,7 +42,7 @@ public class Origin extends EntityBase {
         this.name = name;
     }
 
-    public Origin create(final String name) {
+    public static Origin create(final String name) {
         var origin = new Origin(UUID.randomUUID(), name);
         origin.validate();
         return origin;

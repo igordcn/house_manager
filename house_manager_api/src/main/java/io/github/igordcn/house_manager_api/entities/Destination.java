@@ -18,7 +18,7 @@ public class Destination extends EntityBase {
 
     private String name;
 
-    private Destination() {}
+    public Destination() {}
 
     private Destination(UUID id, String name) {
         super();
