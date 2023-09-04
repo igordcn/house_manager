@@ -3,6 +3,8 @@ package io.github.igordcn.house_manager_api.resources;
 import java.util.List;
 import java.util.UUID;
 
+import io.github.igordcn.house_manager_api.dto.BankOutputDto;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,9 +24,11 @@ public class BankResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Bank>> getByName(@RequestParam(required = false) String name) {
+    public ResponseEntity<CollectionModel<BankOutputDto>> getByName(@RequestParam(required = false) String name) {
         var banks = (name == null || name.isBlank())? service.findAll() : service.findByName(name);
-        return ResponseEntity.ok(banks);
+        var banksDto = banks.stream().map(BankOutputDto::from).toList();
+        var banksLinks = CollectionModel.of(banksDto);
+        return ResponseEntity.ok(banksLinks);
     }
 
     @GetMapping("/{id}")
