@@ -1,6 +1,5 @@
 package io.github.igordcn.house_manager_api.resources;
 
-import java.util.List;
 import java.util.UUID;
 
 import io.github.igordcn.house_manager_api.dto.BankOutputDto;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.github.igordcn.house_manager_api.dto.NamedResourceInputDto;
-import io.github.igordcn.house_manager_api.entities.Bank;
 import io.github.igordcn.house_manager_api.services.BankService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -21,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/banks")
 public class BankResource {
     
-    private BankService service;
+    private final BankService service;
 
     public BankResource(BankService bankService) {
         this.service = bankService;
@@ -34,7 +32,7 @@ public class BankResource {
         for (var bankDto : banksDto) {
             bankDto.add(linkTo(methodOn(BankResource.class).getById(bankDto.getId())).withSelfRel());
         }
-        Link link = linkTo(methodOn(BankResource.class)).withSelfRel();
+        Link link = (name == null || name.isBlank())? linkTo(BankResource.class).withSelfRel() : linkTo(BankResource.class).slash("?name=" + name).withSelfRel();
         var banksLinks = CollectionModel.of(banksDto, link);
         return ResponseEntity.ok(banksLinks);
     }
